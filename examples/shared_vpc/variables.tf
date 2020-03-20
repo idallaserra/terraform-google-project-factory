@@ -41,3 +41,7 @@ variable "network_name" {
   default     = "shared-network"
 }
 
+variable "subnet_ip" {
+  description = "IP range for subnet"
+  default     = "10.114.16.0/20"
+}

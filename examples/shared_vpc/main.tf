@@ -16,7 +16,6 @@
 
 locals {
   subnet_01 = "${var.network_name}-subnet-01"
-  subnet_02 = "${var.network_name}-subnet-02"
 }
 
 /******************************************
@@ -24,6 +23,8 @@ locals {
  *****************************************/
 provider "google" {
   version = "~> 3.6.0"
+  region      = "europe-west1"
+  zone        = "europe-west1-b"
 }
 
 provider "google-beta" {
@@ -66,37 +67,10 @@ module "vpc" {
   subnets = [
     {
       subnet_name   = local.subnet_01
-      subnet_ip     = "10.10.10.0/24"
-      subnet_region = "us-west1"
-    },
-    {
-      subnet_name           = local.subnet_02
-      subnet_ip             = "10.10.20.0/24"
-      subnet_region         = "us-west1"
-      subnet_private_access = true
-      subnet_flow_logs      = true
+      subnet_ip     = var.subnet_ip
+      subnet_region = "europe-west1"
     },
   ]
-
-  secondary_ranges = {
-    "${local.subnet_01}" = [
-      {
-        range_name    = "${local.subnet_01}-01"
-        ip_cidr_range = "192.168.64.0/24"
-      },
-      {
-        range_name    = "${local.subnet_01}-02"
-        ip_cidr_range = "192.168.65.0/24"
-      },
-    ]
-
-    "${local.subnet_02}" = [
-      {
-        range_name    = "${local.subnet_02}-01"
-        ip_cidr_range = "192.168.66.0/24"
-      },
-    ]
-  }
 }
 
 /******************************************
@@ -124,26 +98,3 @@ module "service-project" {
   disable_services_on_destroy = "false"
 }
 
-/******************************************
-  Second Service Project Creation
- *****************************************/
-module "service-project-b" {
-  source = "../../modules/shared_vpc"
-
-  name              = "b-${var.service_project_name}"
-  random_project_id = "false"
-
-  org_id             = var.organization_id
-  folder_id          = var.folder_id
-  billing_account    = var.billing_account
-  shared_vpc_enabled = true
-
-  shared_vpc = module.vpc.project_id
-
-  activate_apis = [
-    "compute.googleapis.com",
-    "container.googleapis.com",
-  ]
-
-  disable_services_on_destroy = "false"
-}
