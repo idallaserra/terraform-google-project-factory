@@ -29,11 +29,6 @@ output "service_project" {
   description = "The service project info"
 }
 
-output "service_project_b" {
-  value       = module.service-project-b
-  description = "The second service project"
-}
-
 output "vpc" {
   value       = module.vpc
   description = "The network info"
