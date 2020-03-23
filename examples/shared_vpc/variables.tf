@@ -45,3 +45,13 @@ variable "subnet_ip" {
   description = "IP range for subnet"
   default     = "10.114.16.0/20"
 }
+
+variable "region" {
+  description = "Google Region"
+  default     = "europe-west3"
+}
+
+variable "zone" {
+  description = "Google Zone"
+  default     = "europe-west3-1"
+}

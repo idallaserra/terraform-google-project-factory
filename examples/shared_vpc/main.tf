@@ -23,8 +23,8 @@ locals {
  *****************************************/
 provider "google" {
   version = "~> 3.6.0"
-  region      = "europe-west1"
-  zone        = "europe-west1-b"
+  region      = var.region
+  zone        = var.zone
 }
 
 provider "google-beta" {
@@ -68,7 +68,7 @@ module "vpc" {
     {
       subnet_name   = local.subnet_01
       subnet_ip     = var.subnet_ip
-      subnet_region = "europe-west1"
+      subnet_region = var.region
     },
   ]
 }
