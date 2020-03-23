@@ -44,7 +44,7 @@ provider "random" {
  *****************************************/
 module "host-project" {
   source            = "../../"
-  random_project_id = true
+  random_project_id = false
   name              = var.host_project_name
   org_id            = var.organization_id
   folder_id         = var.folder_id
@@ -80,7 +80,7 @@ module "service-project" {
   source = "../../modules/shared_vpc"
 
   name              = var.service_project_name
-  random_project_id = "false"
+  random_project_id = false
 
   org_id             = var.organization_id
   folder_id          = var.folder_id
